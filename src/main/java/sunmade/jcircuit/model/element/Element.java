@@ -1,6 +1,9 @@
 package sunmade.jcircuit.model.element;
 
 import javafx.scene.image.Image;
+import org.w3c.dom.Attr;
+import sunmade.jcircuit.model.element.attribute.Attribute;
+import sunmade.jcircuit.model.element.pin.Pin;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -39,23 +42,44 @@ public abstract class Element extends View implements Conductible {
     }
 
     public void addAttribute(Attribute<?> attribute) {
-
+        attributes.add(Objects.requireNonNull(attribute));
     }
 
     public void removeAttribute(Attribute<?> attribute) {
-
+        attributes.remove(Objects.requireNonNull(attribute));
     }
 
-    public Attribute<?> getAttribute(String name) {
-        throw new NullPointerException();
+    public Optional<Attribute<?>> getAttribute(String name) {
+        if (name == null) throw new NullPointerException();
+        for (Attribute<?> attribute : attributes) {
+            if (attribute.getName().equals(name)) return Optional.of(attribute);
+        }
+        return Optional.empty();
     }
 
-    public <T> Attribute<T> getAttribute(String name, T valueType) {
-        throw new NullPointerException();
+    public <T> Optional<Attribute<T>> getAttribute(String name, Class<T> valueClass) {
+        if (valueClass == null) throw new NullPointerException();
+
+        Optional<Attribute<?>> optionalAttribute = getAttribute(name);
+        if (optionalAttribute.isEmpty()) return Optional.empty();
+
+        return getOptionalCast(optionalAttribute.get(), valueClass);
     }
 
-    public <T> Set<Attribute<T>> getAttributes(T valueType) {
-        throw new NullPointerException();
+    public <T> Set<Attribute<T>> getAttributes(Class<T> valueType) {
+        if (valueType == null) throw new NullPointerException();
+        Set<Attribute<T>> matchingAttributes = new HashSet<>();
+        for (Attribute<?> attribute : attributes) {
+            getOptionalCast(attribute, valueType).ifPresent(matchingAttributes::add);
+        }
+        return matchingAttributes;
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> Optional<Attribute<T>> getOptionalCast(Attribute<?> attribute, Class<T> valueClass) {
+        if (attribute == null | valueClass == null) throw new NullPointerException();
+        if (attribute.getValue().getClass() == valueClass) return Optional.of((Attribute<T>) attribute);
+        return Optional.empty();
     }
 
     public Set<Pin> getPins() {
@@ -63,9 +87,4 @@ public abstract class Element extends View implements Conductible {
     }
 
     public Set<Attribute<?>> getAttributes() { return attributes; }
-
-    @Override
-    public View getCopy() {
-        throw new NullPointerException();
-    }
 }

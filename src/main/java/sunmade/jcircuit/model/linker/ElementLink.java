@@ -1,4 +1,6 @@
-package sunmade.jcircuit.model.element;
+package sunmade.jcircuit.model.linker;
+
+import sunmade.jcircuit.model.element.pin.Pin;
 
 import java.util.HashSet;
 import java.util.Set;

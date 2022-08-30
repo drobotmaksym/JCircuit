@@ -1,4 +1,4 @@
-package sunmade.jcircuit.model.element;
+package sunmade.jcircuit.model.linker;
 
 import java.util.HashSet;
 import java.util.Objects;

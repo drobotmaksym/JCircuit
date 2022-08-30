@@ -1,4 +1,6 @@
-package sunmade.jcircuit.model.element;
+package sunmade.jcircuit.model.scheme;
+
+import sunmade.jcircuit.model.element.Element;
 
 import java.util.HashSet;
 import java.util.Set;

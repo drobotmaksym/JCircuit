@@ -1,4 +1,4 @@
-package sunmade.jcircuit.model.element;
+package sunmade.jcircuit.model.element.pin;
 
 import java.util.Objects;
 

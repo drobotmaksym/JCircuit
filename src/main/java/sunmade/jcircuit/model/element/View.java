@@ -1,10 +1,11 @@
 package sunmade.jcircuit.model.element;
 
 import javafx.scene.image.Image;
+import sunmade.jcircuit.model.Cloneable;
 
 import java.util.Objects;
 
-public abstract class View {
+public class View implements Cloneable<View> {
     private final String name;
     private final Image image;
     private int x;
@@ -39,5 +40,11 @@ public abstract class View {
         return image;
     }
 
-    public abstract View getCopy();
+    @Override
+    public View getClone() {
+        View clone = new View(name, image);
+        clone.setX(x);
+        clone.setY(y);
+        return clone;
+    }
 }

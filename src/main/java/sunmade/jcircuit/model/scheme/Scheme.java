@@ -1,4 +1,6 @@
-package sunmade.jcircuit.model.element;
+package sunmade.jcircuit.model.scheme;
+
+import sunmade.jcircuit.model.element.View;
 
 import java.util.HashSet;
 import java.util.Objects;
@@ -41,5 +43,9 @@ public class Scheme {
             }
         }
         return false;
+    }
+
+    public String getName() {
+        return name;
     }
 }

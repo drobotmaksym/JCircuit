@@ -1,4 +1,4 @@
-package sunmade.jcircuit.model.element;
+package sunmade.jcircuit.model.element.pin;
 
 public enum Voltage {
     HIGH,
