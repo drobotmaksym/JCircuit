@@ -1,15 +1,23 @@
 package sunmade.jcircuit.model.element.pin;
 
+import sunmade.jcircuit.model.Cloneable;
+
 import java.util.Objects;
 
-public class Pin {
+public class Pin implements Cloneable<Pin> {
     private final String identifier;
     private Voltage voltage = Voltage.ZERO;
     private int relativeX;
     private int relativeY;
 
-    public Pin(String identifier) {
+    public Pin(String identifier, int relativeX, int relativeY) {
         this.identifier = Objects.requireNonNull(identifier);
+        this.relativeX = relativeX;
+        this.relativeY = relativeY;
+    }
+
+    public Pin(String identifier) {
+        this(identifier, 0, 0);
     }
 
     @Override
@@ -51,5 +59,10 @@ public class Pin {
 
     public void setRelativeY(int relativeY) {
         this.relativeY = relativeY;
+    }
+
+    @Override
+    public Pin getClone() {
+        return new Pin(identifier, relativeX, relativeY);
     }
 }

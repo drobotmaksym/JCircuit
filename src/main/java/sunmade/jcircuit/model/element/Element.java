@@ -86,5 +86,20 @@ public abstract class Element extends View implements Conductible {
         return pins;
     }
 
-    public Set<Attribute<?>> getAttributes() { return attributes; }
+    public Set<Attribute<?>> getAttributes() {
+        return attributes;
+    }
+
+    @Override
+    public Element getClone() {
+        Element clone = new Element(getName(), getImage()) {
+            @Override
+            public void conduct() {
+                Element.this.conduct();
+            }
+        };
+        pins.forEach(pin -> clone.pins.add(pin.getClone()));
+        attributes.forEach(attribute -> clone.attributes.add(attribute.getClone()));
+        return clone;
+    }
 }

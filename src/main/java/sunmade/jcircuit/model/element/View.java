@@ -42,9 +42,6 @@ public class View implements Cloneable<View> {
 
     @Override
     public View getClone() {
-        View clone = new View(name, image);
-        clone.setX(x);
-        clone.setY(y);
-        return clone;
+        return new View(name, image);
     }
 }

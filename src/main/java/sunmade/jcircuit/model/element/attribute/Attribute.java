@@ -4,7 +4,7 @@ import sunmade.jcircuit.model.Cloneable;
 
 import java.util.Objects;
 
-public abstract class Attribute<T> implements Cloneable<Attribute<T>> {
+public class Attribute<T> implements Cloneable<Attribute<T>> {
     private final String name;
     private final T defaultValue;
     private T value;
@@ -41,5 +41,10 @@ public abstract class Attribute<T> implements Cloneable<Attribute<T>> {
 
     public void setValue(T value) {
         this.value = Objects.requireNonNull(value);
+    }
+
+    @Override
+    public Attribute<T> getClone() {
+        return new Attribute<>(name, defaultValue);
     }
 }
