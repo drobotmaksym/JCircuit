@@ -1,6 +1,7 @@
 package sunmade.jcircuit.model.linker;
 
-import java.util.Set;
+import java.util.Collection;
+import java.util.Optional;
 
 public interface Linker<T> {
     void link(T first, T second);
@@ -9,7 +10,7 @@ public interface Linker<T> {
 
     boolean isLinked(T linkable);
 
-    Set<T> getLinks(T linkable);
+    Optional<Link<T>> getLink(T linkable);
 
-    int getLinkCount();
+    Collection<Link<T>> getLinks();
 }
