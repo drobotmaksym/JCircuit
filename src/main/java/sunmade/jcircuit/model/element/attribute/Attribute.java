@@ -12,6 +12,7 @@ public class Attribute<T> implements Cloneable<Attribute<T>> {
     public Attribute(String name, T defaultValue) {
         this.name = Objects.requireNonNull(name);
         this.defaultValue = Objects.requireNonNull(defaultValue);
+        value = defaultValue;
     }
 
     @Override

@@ -1,7 +1,6 @@
 package sunmade.jcircuit.model.element;
 
 import javafx.scene.image.Image;
-import org.w3c.dom.Attr;
 import sunmade.jcircuit.model.element.attribute.Attribute;
 import sunmade.jcircuit.model.element.pin.Pin;
 
@@ -10,7 +9,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-public abstract class Element extends View implements Conductible {
+public class Element extends View {
     private final Set<Pin> pins = new HashSet<>();
     private final Set<Attribute<?>> attributes = new HashSet<>();
 
@@ -28,7 +27,9 @@ public abstract class Element extends View implements Conductible {
 
     public Optional<Pin> getPin(int x, int y) {
         for (Pin pin : pins) {
-            if (getX() + pin.getRelativeX() == x & getY() + pin.getRelativeY() == y) return Optional.of(pin);
+            if (getX() + pin.getRelativeX() == x &
+                    getY() + pin.getRelativeY() == y
+            ) return Optional.of(pin);
         }
         return Optional.empty();
     }
@@ -39,6 +40,10 @@ public abstract class Element extends View implements Conductible {
             if (pin.getIdentifier().equals(identifier)) return Optional.of(pin);
         }
         return Optional.empty();
+    }
+
+    public boolean hasPin(Pin pin) {
+        return getPin(Objects.requireNonNull(pin).getIdentifier()).isPresent();
     }
 
     public void addAttribute(Attribute<?> attribute) {
@@ -92,12 +97,7 @@ public abstract class Element extends View implements Conductible {
 
     @Override
     public Element getClone() {
-        Element clone = new Element(getName(), getImage()) {
-            @Override
-            public void conduct() {
-                Element.this.conduct();
-            }
-        };
+        Element clone = new Element(getName(), getImage());
         pins.forEach(pin -> clone.pins.add(pin.getClone()));
         attributes.forEach(attribute -> clone.attributes.add(attribute.getClone()));
         return clone;
