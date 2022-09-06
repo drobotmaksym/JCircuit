@@ -12,9 +12,15 @@ import java.util.Set;
 public class Element extends View {
     private final Set<Pin> pins = new HashSet<>();
     private final Set<Attribute<?>> attributes = new HashSet<>();
+    private final ElementType type;
+
+    public Element(String name, Image image, ElementType type) {
+        super(name, image);
+        this.type = Objects.requireNonNull(type);
+    }
 
     public Element(String name, Image image) {
-        super(name, image);
+        this(name, image, ElementType.Consumer);
     }
 
     public void addPin(Pin pin) {
@@ -71,11 +77,11 @@ public class Element extends View {
         return getOptionalCast(optionalAttribute.get(), valueClass);
     }
 
-    public <T> Set<Attribute<T>> getAttributes(Class<T> valueType) {
-        if (valueType == null) throw new NullPointerException();
+    public <T> Set<Attribute<T>> getAttributes(Class<T> valueClass) {
+        if (valueClass == null) throw new NullPointerException();
         Set<Attribute<T>> matchingAttributes = new HashSet<>();
         for (Attribute<?> attribute : attributes) {
-            getOptionalCast(attribute, valueType).ifPresent(matchingAttributes::add);
+            getOptionalCast(attribute, valueClass).ifPresent(matchingAttributes::add);
         }
         return matchingAttributes;
     }
@@ -95,9 +101,13 @@ public class Element extends View {
         return attributes;
     }
 
+    public ElementType getType() {
+        return type;
+    }
+
     @Override
     public Element getClone() {
-        Element clone = new Element(getName(), getImage());
+        Element clone = new Element(getName(), getImage(), type);
         pins.forEach(pin -> clone.pins.add(pin.getClone()));
         attributes.forEach(attribute -> clone.attributes.add(attribute.getClone()));
         return clone;
